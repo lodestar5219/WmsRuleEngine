@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Services\" />
+    <Folder Include="Domain\Models\" />
+    <Folder Include="Infrastructure\Repositories\" />
+    <Folder Include="Infrastructure\RAG\" />
+    <Folder Include="Infrastructure\Ollama\" />
+  </ItemGroup>
+
+</Project>

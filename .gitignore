@@ -1,0 +1,77 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Rider and ReSharper
+_ReSharper*
+*.DotSettings.user
+
+# Entity Framework
+Migrations/**/*.cs
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Secrets
+secrets.json
+appsettings.*.secret.json
+
+# Local tools
+*.local
+
+# Coverage
+coverage*/
+*.coverage
+*.coveragexml
+
+# dotnet watch
+dotnetwatch.json
+
+# JetBrains Rider
+.idea/
+
+# Environment files
+.env
+
+# Ignore publish output
+publish/
+
+# Backup files
+*~
+
+# Lock files
+project.lock.json
+
+# Others
+.vsconfig
+
+# End of file

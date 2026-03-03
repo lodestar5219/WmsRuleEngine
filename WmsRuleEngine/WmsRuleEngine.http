@@ -1,0 +1,6 @@
+@WmsRuleEngine_HostAddress = http://localhost:5045
+
+GET {{WmsRuleEngine_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
