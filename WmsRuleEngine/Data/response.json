@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "rule": {
+    "id": "36659898-343d-4a7d-a51a-1a464a2dea32",
+    "name": "Block Risky Mission Execution",
+    "description": "Blocks when operator is trainee, or battery is low AND mission is high priority",
+    "contextKey": "MISSION_EXECUTION",
+    "priority": 200,
+    "stopProcessing": true,
+    "isActive": true,
+    "rootCondition": {
+      "type": "group",
+      "operator": "Or",
+      "children": [
+        {
+          "type": "comparison",
+          "operator": null,
+          "children": null,
+          "leftOperand": "Operator.Type",
+          "comparisonOperator": "Equals",
+          "rightOperand": "Trainee"
+        },
+        {
+          "type": "group",
+          "operator": "And",
+          "children": [
+            {
+              "type": "comparison",
+              "operator": null,
+              "children": null,
+              "leftOperand": "Vehicle.BatteryLevel",
+              "comparisonOperator": "LessThan",
+              "rightOperand": 20
+            },
+            {
+              "type": "comparison",
+              "operator": null,
+              "children": null,
+              "leftOperand": "Mission.Priority",
+              "comparisonOperator": "Equals",
+              "rightOperand": "HIGH"
+            }
+          ],
+          "leftOperand": null,
+          "comparisonOperator": null,
+          "rightOperand": null
+        }
+      ],
+      "leftOperand": null,
+      "comparisonOperator": null,
+      "rightOperand": null
+    },
+    "actions": [
+      {
+        "actionType": "Block",
+        "message": "Mission blocked due to unsafe execution conditions.",
+        "parameters": null
+      }
+    ],
+    "createdAt": "2026-03-03T13:39:06.2630282Z",
+    "createdBy": "AI"
+  },
+  "errorMessage": null
+}

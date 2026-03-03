@@ -1,0 +1,44 @@
+{
+  "name": "Block Risky Mission Execution",
+  "description": "Blocks execution based on operator or vehicle risk",
+  "contextKey": "MISSION_EXECUTION",
+  "priority": 200,
+  "stopProcessing": true,
+  "isActive": true,
+  "rootCondition": {
+    "type": "group",
+    "operator": "Or",
+    "children": [
+      {
+        "type": "comparison",
+        "leftOperand": "Operator.Type",
+        "operator": "Equals",
+        "rightOperand": "Trainee"
+      },
+      {
+        "type": "group",
+        "operator": "And",
+        "children": [
+          {
+            "type": "comparison",
+            "leftOperand": "Vehicle.BatteryLevel",
+            "operator": "LessThan",
+            "rightOperand": 20
+          },
+          {
+            "type": "comparison",
+            "leftOperand": "Mission.Priority",
+            "operator": "Equals",
+            "rightOperand": "HIGH"
+          }
+        ]
+      }
+    ]
+  },
+  "actions": [
+    {
+      "actionType": "Block",
+      "message": "Mission blocked due to unsafe execution conditions."
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace WmsRuleEngine.Domain.Models;
 
 // ─── Core Rule Model ──────────────────────────────────────────────────────────
@@ -11,26 +13,51 @@ public class WmsRule
     public int Priority { get; set; } = 100;
     public bool StopProcessing { get; set; } = false;
     public bool IsActive { get; set; } = true;
-    public ConditionNode RootCondition { get; set; } = new();
+    public ConditionNode RootCondition { get; set; } = new GroupConditionNode();
     public List<RuleAction> Actions { get; set; } = new();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public string CreatedBy { get; set; } = "AI";
 }
 
-public class ConditionNode
+// ─── Polymorphic Condition Node ───────────────────────────────────────────────
+// Using JsonPolymorphic so each subtype serializes ONLY its own fields.
+// This eliminates null bleed (e.g. "leftOperand: null" on group nodes).
+
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+[JsonDerivedType(typeof(GroupConditionNode), "group")]
+[JsonDerivedType(typeof(ComparisonConditionNode), "comparison")]
+public abstract class ConditionNode
 {
-    public string Type { get; set; } = string.Empty;       // "group" | "comparison"
-    public string? Operator { get; set; }                  // Group: "And" | "Or"
-    public List<ConditionNode>? Children { get; set; }     // Group children
-    public string? LeftOperand { get; set; }               // e.g. "Operator.Type"
-    public string? ComparisonOperator { get; set; }        // "Equals" | "LessThan" | etc.
-    public object? RightOperand { get; set; }              // e.g. "Trainee", 20
+    public abstract string Type { get; }
+}
+
+public class GroupConditionNode : ConditionNode
+{
+    public override string Type => "group";
+
+    public string Operator { get; set; } = "And";           // "And" | "Or"
+    public List<ConditionNode> Children { get; set; } = new();
+}
+
+public class ComparisonConditionNode : ConditionNode
+{
+    public override string Type => "comparison";
+
+    public string LeftOperand { get; set; } = string.Empty;
+
+    // Serialized as "operator" to match the expected response contract
+    [JsonPropertyName("operator")]
+    public string ComparisonOperator { get; set; } = string.Empty;
+
+    public object? RightOperand { get; set; }
 }
 
 public class RuleAction
 {
-    public string ActionType { get; set; } = string.Empty; // Block | Warn | Log | Notify
+    public string ActionType { get; set; } = string.Empty;  // Block | Warn | Log | Notify
     public string? Message { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? Parameters { get; set; }
 }
 
@@ -73,8 +100,8 @@ public class RuleGenerationResult
 {
     public bool Success { get; set; }
     public WmsRule? Rule { get; set; }
-    public string? RawAiResponse { get; set; }
+    //public string? RawAiResponse { get; set; }
     public string? ErrorMessage { get; set; }
-    public List<string> Warnings { get; set; } = new();
-    public string? DetectedContextKey { get; set; }
+    //public List<string> Warnings { get; set; } = new();
+    //public string? DetectedContextKey { get; set; }
 }

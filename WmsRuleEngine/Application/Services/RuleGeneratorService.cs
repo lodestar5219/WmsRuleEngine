@@ -97,9 +97,9 @@ public class RuleGeneratorService : IRuleGeneratorService
             return new RuleGenerationResult
             {
                 Success = false,
-                RawAiResponse = rawResponse,
+                //RawAiResponse = rawResponse,
                 ErrorMessage = string.Join("; ", errors),
-                Warnings = warnings
+                //Warnings = warnings
             };
         }
 
@@ -114,9 +114,9 @@ public class RuleGeneratorService : IRuleGeneratorService
         {
             Success = true,
             Rule = savedRule,
-            RawAiResponse = rawResponse,
-            Warnings = warnings,
-            DetectedContextKey = savedRule.ContextKey
+            //RawAiResponse = rawResponse,
+            //Warnings = warnings,
+            //DetectedContextKey = savedRule.ContextKey
         };
     }
 
@@ -154,8 +154,8 @@ public class RuleGeneratorService : IRuleGeneratorService
                 {
                     Success = true,
                     Rule = saved,
-                    RawAiResponse = retryResponse,
-                    Warnings = retryWarnings
+                    //RawAiResponse = retryResponse,
+                   // Warnings = retryWarnings
                 };
             }
         }

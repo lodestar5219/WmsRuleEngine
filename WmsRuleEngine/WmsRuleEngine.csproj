@@ -16,6 +16,7 @@
     <Folder Include="Infrastructure\Repositories\" />
     <Folder Include="Infrastructure\RAG\" />
     <Folder Include="Infrastructure\Ollama\" />
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
